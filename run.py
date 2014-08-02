@@ -11,7 +11,7 @@ from werkzeug.utils import secure_filename
 from core import Service
 
 CLIENT_ID = "Your_applications_client_id"
-im = pyimgur.Imgur('')
+im = pyimgur.Imgur('b467811fb9e6bb9')
 image = im.get_image('S1jmapR')
 print(image.title) # Cat Ying & Yang
 print(image.link) # http://imgur.com/S1jmapR.jpg
@@ -43,6 +43,9 @@ class Image(db.Model):
 class ImagesService(Service):
     __model__ = Image
 
+#instantiate the service
+images = ImagesService()
+
 
 # View/handler to drop all the images
 @app.route('/', methods=['GET', 'POST'])
@@ -52,10 +55,24 @@ def index():
         # print "data: ", type(request.data)
         # print "content-type: %r" % request.content_type
         if request.files:
-            image = Image(image='SUP')
-            db.session.add(image)
-            db.session.commit()
-            print "saved"
+            images.create(image='BETH BETH BETH')
+            print service.does_this_work()
+            # db.session.add(image)
+            # db.session.commit()
+            # print "saved"
+
+            file1 = request.files['file1']
+            print "FIRE FILE1",  file1.name
+            #is there a stream here?
+            print "STREAM: \n", file1.stream
+
+            uploaded_image = im.upload_image(
+                request.files['file1'],
+                title="Uploaded with PyImgur")
+            print(uploaded_image.title)
+            print(uploaded_image.date)
+            print(uploaded_image.url)
+            print(uploaded_image.link)
         # and ImagesService.create:
         #
         #     new_file = request.files['file1']

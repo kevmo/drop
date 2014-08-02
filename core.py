@@ -40,6 +40,9 @@ class Service(object):
     """
     __model__ = None
 
+    def does_this_work(self):
+        return "SERVICE WORKS"
+
     def _isinstance(self, model, raise_error=True):
         """Checks if the specified model instance matches the service's model.
         By default this method will raise a `ValueError` if the model is not the
